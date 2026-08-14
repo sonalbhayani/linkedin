@@ -29,7 +29,7 @@ const SignUp = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const result = await axios.post(`${serverUrl}/api/v1/auth/signUp`, form);
+            const result = await axios.post(`${serverUrl}/api/v1/auth/signUp`, form, { withCredentials: true });
             setLoading(false);
             if (result.data.status !== 201) {
                 setError(result.data.message);
