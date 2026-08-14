@@ -3,7 +3,7 @@ import { createContext } from 'react';
 export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
-    const serverUrl = 'http://localhost:8082';
+    const serverUrl = 'https://linkedin-x8re.onrender.com';
     let value = {
         serverUrl
     };

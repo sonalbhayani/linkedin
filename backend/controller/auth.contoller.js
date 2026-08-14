@@ -1,10 +1,10 @@
 
-import userService from "../service/userService.js";
+import authService from "../service/authService.js";
 
 export const register = async (req, res) => {
     try {
 
-        const result = await userService.register(req.body);
+        const result = await authService.register(req.body);
         if (result.status == 201) {
             const token = result.token;
             res.cookie("token", token, {
@@ -22,7 +22,7 @@ export const register = async (req, res) => {
 }
 export const login = async (req, res) => {
     try {
-        const result = await userService.login(req.body);
+        const result = await authService.login(req.body);
         if (result.status == 200) {
             const token = result.token;
             res.cookie("token", token, {

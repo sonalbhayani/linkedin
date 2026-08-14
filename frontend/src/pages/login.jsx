@@ -82,7 +82,7 @@ const Login = () => {
                 rounded-lg cursor-pointer hover:bg-[#004182]'
                     disabled={loading}
                     onClick={(e) => { handleSubmit(e) }}>{loading ? "Signing In..." : "Sign In"}</button>
-                <p className='text-lg font-normal text-center'>Don't have an account ? <Link to="/" className='text-[#004182] font-bold cursor-pointer hover:text-[#004182]'>Sign Up</Link></p>
+                <p className='text-lg font-normal text-center'>Don't have an account ? <Link to="/signup" className='text-[#004182] font-bold cursor-pointer hover:text-[#004182]'>Sign Up</Link></p>
             </form>
         </div>
     );
