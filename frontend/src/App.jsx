@@ -6,7 +6,7 @@ import Home from './pages/home';
 import { UserContext } from './context/UserContext';
 
 const App = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
 
 
@@ -14,9 +14,9 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/signup" element={user ? <Home /> : <SignUp />} />
+        <Route path="/signup" element={user ? <Navigate to="/home" /> : <SignUp />} />
         <Route path="/home" element={user ? <Home /> : <Navigate to="/" />} />
-        <Route path="/" element={user ? <Home /> : <Login />} />
+        <Route path="/" element={user ? <Navigate to="/home" /> : <Login />} />
       </Routes>
     </BrowserRouter>
   );

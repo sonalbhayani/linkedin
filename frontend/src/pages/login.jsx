@@ -2,11 +2,13 @@ import { useState, useContext } from 'react';
 import logo from "../assets/logo.svg";
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { UserContext } from "../context/UserContext";
 import axios from 'axios';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { serverUrl } = useContext(AuthContext);
+    const { setUser } = useContext(UserContext);
     const [error, setError] = useState("");
     const [form, setform] = useState({
         email: "",
@@ -30,9 +32,10 @@ const Login = () => {
             setLoading(false);
             if (result.data.status !== 200) {
                 setError(result.data.message);
+                setUser(null)
             }
             else {
-
+                setUser(result.data.user);
                 setform({
                     email: "",
                     password: ""

@@ -36,9 +36,10 @@ const SignUp = () => {
             setLoading(false);
             if (result.data.status !== 201) {
                 setError(result.data.message);
+                setUser(null)
             }
             else {
-
+                setUser(result.data.user);
                 setform({
                     firstName: "",
                     lastName: "",
