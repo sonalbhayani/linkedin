@@ -2,11 +2,13 @@ import { useState, useContext } from 'react';
 import logo from "../assets/logo.svg";
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { UserContext } from '../context/UserContext';
 import axios from 'axios';
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { serverUrl } = useContext(AuthContext);
+    const { setUser } = useContext(UserContext);
     const [error, setError] = useState("");
     const [form, setform] = useState({
         firstName: "",
@@ -30,6 +32,7 @@ const SignUp = () => {
         setLoading(true);
         try {
             const result = await axios.post(`${serverUrl}/api/v1/auth/signUp`, form, { withCredentials: true });
+            setUser(result.data.user);
             setLoading(false);
             if (result.data.status !== 201) {
                 setError(result.data.message);
