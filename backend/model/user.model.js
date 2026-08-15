@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema({
     },
     location: {
         type: String,
-        default: ""
+        default: "india"
     },
     skils: [{ type: String }],
     education: [{
