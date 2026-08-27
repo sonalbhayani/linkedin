@@ -1,13 +1,14 @@
 import multer from "multer";
 
-const upload = multer({ storage });
+
 
 let storage = multer.diskStorage({
-    destination: (req, res, cb) => {
+    destination: (req, file, cb) => {
         cb(null, "./public")
     },
-    filename: (req, res, cb) => {
+    filename: (req, file, cb) => {
         cb(null, file.originalname);
     }
 })
+const upload = multer({ storage });
 export default upload;

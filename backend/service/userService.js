@@ -18,6 +18,14 @@ class userService {
         }
 
     }
+    static async updateProfile(data) {
+        try {
+            let user = await User.findByIdAndUpdate(data.userId, data, { returnDocument: 'after' }).select("-password");
+            return ({ status: 200, user });
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default userService;

@@ -28,7 +28,7 @@ const Nav = () => {
     }
 
     return (
-        <nav className='bg-white w-full h-20 flex items-center justify-around'>
+        <nav className='bg-white w-full h-20 flex items-center justify-around relative z-10'>
             <div className='flex items-center ' >
                 <div className='pl-10' onClick={() => setActiveSearch(false)}>
                     <img src={home_logo} alt="home_logo" className='w-10 h-10' />
@@ -41,10 +41,10 @@ const Nav = () => {
             </div>
             <div className='pr-10 flex justify-center items-center gap-[20px] relative'>
                 {showpop &&
-                    <div className='w-[300px] min-[h-[350px]] shadow-lg top-20 bg-white  rounded-xl   absolute  gap-5 flex flex-col'>
+                    <div className='w-[300px] min-[h-[350px]] shadow-lg top-20 bg-white  rounded-xl   absolute  gap-5 flex flex-col z-50 right-0'>
                         <div className='flex flex-col items-center gap-5' >
                             <div className='flex items-center gap-2 mt-10'>
-                                <img src={profile} alt="profile" className='w-10 h-10 rounded-full cursor-pointer hover:text-gray-900' />
+                                <img src={user.profileImage || profile} alt="profile" className='w-10 h-10 rounded-full cursor-pointer hover:text-gray-900' />
 
                             </div>
                             <div className='flex flex-col'>
@@ -62,7 +62,7 @@ const Nav = () => {
                         <button className='w-[200px] h-[40px]  mx-auto mb-10 text-lg font-bold outline-none border-2  text-[#82000f] rounded-full cursor-pointer hover:bg-[#82000f] hover:text-white' onClick={handleSignOut}>Sign Out</button>
                     </div>
                 }
-                <div className='flex items-center gap-10'>
+                <div className='flex items-center gap-10 z-0'>
                     <div className='flex flex-col items-center hidden md:block'>
                         <p className='text-lg font-medium text-gray-600 cursor-pointer hover:text-gray-900'>Home</p>
                         <MdOutlineHome className='text-gray-600 text-2xl cursor-pointer hover:text-gray-900' />
@@ -76,7 +76,7 @@ const Nav = () => {
                         <MdOutlineNotifications className='text-gray-600 text-2xl cursor-pointer hover:text-gray-900' />
                     </div>
                     <div className='flex flex-col items-center' onClick={() => setShowpop(!showpop)}>
-                        <img src={profile} alt="profile" className='w-10 h-10 rounded-full cursor-pointer hover:text-gray-900' />
+                        <img src={user.profileImage || profile} alt="profile" className='w-10 h-10 rounded-full cursor-pointer hover:text-gray-900' />
                     </div>
                 </div>
 

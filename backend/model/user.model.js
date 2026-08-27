@@ -33,13 +33,13 @@ const userSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        enum: ["Male", "Female", "Other"],
+        enum: ["Male", "Female", "Other", "male", "female", "other"],
     },
     phone: {
         type: String,
         default: ""
     },
-    bio: {
+    headline: {
         type: String,
         default: ""
     },
@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "india"
     },
-    skils: [{ type: String }],
+    skills: [{ type: String }],
     education: [{
         degree: String,
         school: String,

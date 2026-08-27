@@ -6,6 +6,7 @@ export const UserContext = createContext();
 export const UserContextProvider = ({ children }) => {
     const { serverUrl } = useContext(AuthContext);
     const [user, setUser] = useState(null);
+    const [editProfile, setEditProfile] = useState(false);
 
 
     useEffect(() => {
@@ -30,7 +31,7 @@ export const UserContextProvider = ({ children }) => {
     }, []);
 
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ user, setUser, editProfile, setEditProfile }}>
             {children}
         </UserContext.Provider>
     );
