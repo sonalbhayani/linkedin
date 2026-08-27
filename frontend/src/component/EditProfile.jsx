@@ -168,7 +168,7 @@ const EditProfile = () => {
 
     return (
         <div className='w-full h-screen fixed top-0 left-0 bg-black/50 z-10 flex items-center justify-center'>
-            <div className='w-[40%] h-[80%] bg-white rounded-lg overflow-y-auto overflow-x-hidden'>
+            <div className='w-[95%] sm:w-[85%] md:w-[60%] lg:w-[40%] h-[90%] md:h-[80%] bg-white rounded-lg overflow-y-auto overflow-x-hidden'>
                 <div className='flex items-center justify-between mx-5 my-5'>
                     <p className='text-xl font-medium'>Edit Your Profile</p>
                     <button className='text-xl font-medium cursor-pointer' onClick={() => setEditProfile(false)}><IoMdCloseCircle /></button>
@@ -210,14 +210,20 @@ const EditProfile = () => {
                         name="location" className='w-[90%] h-10 outline-none border-2
                       border-gray-400 rounded-lg px-5 py-2 text-lg font-medium
                        text-gray-600 cursor-pointer hover:text-gray-900'  value={profileData.location} onChange={handleProfileChange} />
-                    <div className="w-[90%] flex gap-2 items-center border-2 border-gray-400 rounded-lg px-5 py-2 text-lg font-medium text-gray-600 cursor-pointer hover:text-gray-900" >
-                        <p>Gender</p>
-                        <input type="radio" name="gender" id="gender" value="male" checked={profileData.gender === "male"} onChange={handleProfileChange} />
-                        <p>Male</p>
-                        <input type="radio" name="gender" id="gender" value="female" checked={profileData.gender === "female"} onChange={handleProfileChange} />
-                        <p>Female</p>
-                        <input type="radio" name="gender" id="gender" value="other" checked={profileData.gender === "other"} onChange={handleProfileChange} />
-                        <p>Other</p>
+                    <div className="w-[90%] flex flex-wrap gap-3 items-center border-2 border-gray-400 rounded-lg px-5 py-2 text-lg font-medium text-gray-600 cursor-pointer hover:text-gray-900" >
+                        <p className="font-semibold mr-2">Gender</p>
+                        <div className="flex gap-2 items-center">
+                            <input type="radio" name="gender" id="gender_male" value="male" checked={profileData.gender?.toLowerCase() === "male"} onChange={handleProfileChange} />
+                            <label htmlFor="gender_male" className="cursor-pointer">Male</label>
+                        </div>
+                        <div className="flex gap-2 items-center">
+                            <input type="radio" name="gender" id="gender_female" value="female" checked={profileData.gender?.toLowerCase() === "female"} onChange={handleProfileChange} />
+                            <label htmlFor="gender_female" className="cursor-pointer">Female</label>
+                        </div>
+                        <div className="flex gap-2 items-center">
+                            <input type="radio" name="gender" id="gender_other" value="other" checked={profileData.gender?.toLowerCase() === "other"} onChange={handleProfileChange} />
+                            <label htmlFor="gender_other" className="cursor-pointer">Other</label>
+                        </div>
                     </div>
                     <div className="w-[90%] flex flex-col gap-2 border-2 border-gray-400 rounded-lg px-5 py-2">
                         <h4 className="text-lg font-medium text-gray-700">Skills</h4>
@@ -236,7 +242,7 @@ const EditProfile = () => {
                             <input type="text" placeholder='Skill' name="newSkill" className='flex-grow h-10 outline-none border-2
                       border-gray-400 rounded-lg px-5 py-2 text-lg font-medium
                        text-gray-600 cursor-pointer hover:text-gray-900' value={profileData.newSkill} onChange={handleProfileChange} />
-                            <button className='w-[20%] h-10 outline-none border-2
+                            <button className='w-[30%] sm:w-[20%] h-10 outline-none border-2
                       border-gray-400 rounded-lg px-2 py-2 text-lg font-medium bg-gray-400
                        text-gray-600 cursor-pointer hover:text-gray-900' onClick={handleSkills}>Add</button>
                         </div>
@@ -269,7 +275,7 @@ const EditProfile = () => {
                             <input type="text" placeholder='Field Of Study' name="fieldOfStudy" className='flex-grow h-10 outline-none border-2
                                 border-gray-400 rounded-lg px-5 py-2 text-lg font-medium
                                 text-gray-600 cursor-pointer hover:text-gray-900' value={profileData.newEducation.fieldOfStudy} onChange={handleEducationChange} />
-                            <button className='w-[20%] h-10 outline-none border-2
+                            <button className='w-full sm:w-[20%] h-10 outline-none border-2
                                 border-gray-400 rounded-lg px-2 py-2 text-lg font-medium bg-gray-400
                                 text-gray-600 cursor-pointer hover:text-gray-900' onClick={handleEducation}>Add</button>
                         </div>
@@ -303,7 +309,7 @@ const EditProfile = () => {
                             <input type="text" placeholder='Description' name="description" className='flex-grow h-10 outline-none border-2
                                 border-gray-400 rounded-lg px-5 py-2 text-lg font-medium
                                 text-gray-600 cursor-pointer hover:text-gray-900' value={profileData.newExperience.description} onChange={handleExperienceChange} />
-                            <button className='w-[20%] h-10 outline-none border-2
+                            <button className='w-full sm:w-[20%] h-10 outline-none border-2
                                 border-gray-400 rounded-lg px-2 py-2 text-lg font-medium bg-gray-400
                                 text-gray-600 cursor-pointer hover:text-gray-900' onClick={handleExperience}>Add</button>
                         </div>

@@ -47,7 +47,18 @@ const Home = () => {
                     </div>
                 </div>
 
-                <div className="lg:w-[50%] w-full min-h-[400px] bg-white rounded-lg ">Center Side</div>
+                <div className="lg:w-[50%] w-full min-h-[400px] bg-[#f3f2f0] rounded-lg ">
+                    <div className='flex items-center gap-5 m-5 min-h-[70px] bg-white rounded-lg p-5'>
+                        <img src={user.profileImage || profile} alt="profile"
+                            className='w-10 h-10 rounded-full cursor-pointer hover:text-gray-900 object-cover' />
+                        <button className='w-full h-[40px] text-lg font-bold
+                    outline-none border-2 border-[#004182] text-[#004182] 
+                    rounded-full cursor-pointer hover:bg-[#004182] hover:text-white  items-center flex justify-start px-5'>
+                            Start a Post</button>
+                    </div>
+
+
+                </div>
                 <div className="lg:w-[25%] w-full min-h-[400px] bg-white rounded-lg ">Right Side</div>
             </div>
         </div>
