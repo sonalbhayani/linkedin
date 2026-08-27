@@ -12,6 +12,7 @@ const getAuthUser = async (req, res) => {
 const updateProfile = async (req, res) => {
     let data = {};
     data.userId = req.userId;
+    console.log(req);
     let { firstName, lastName, headline, location, gender, skills, education, experience } = req.body;
     data.firstName = firstName;
     data.lastName = lastName;
