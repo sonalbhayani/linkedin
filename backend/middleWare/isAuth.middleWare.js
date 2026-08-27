@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 const isAuth = async (req, res, next) => {
     try {
         const token = req.cookies.token;
-        return res.status(200).json(token);
+        return res.status(200).json(req.cookies);
         if (!token) {
             return res.status(401).json({ message: "Unauthorized" })
         }
