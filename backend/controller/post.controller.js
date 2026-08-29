@@ -5,8 +5,8 @@ const createPost = async (req, res) => {
         let { description } = req.body;
         let image = null;
         if (req.file) {
-
-            image = await uploadOnCloudinary(req.file.path);
+            const uploadResult = await uploadOnCloudinary(req.file.path);
+            image = uploadResult?.secure_url;
         }
 
         let user = req.userId;
@@ -14,8 +14,41 @@ const createPost = async (req, res) => {
         return res.status(result.status).json(result.post);
 
     } catch (error) {
-        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
 
     }
 }
-export { createPost };
+const getPost = async (req, res) => {
+    try {
+        let result = await postService.getPost();
+        return res.status(result.status).json(result.post);
+
+    } catch (error) {
+        return res.status(500).json({ message: "Internal server error" });
+
+    }
+}
+const likePost = async (req, res) => {
+    try {
+        let postId = req.params.id;
+        let userId = req.userId;
+        let result = await postService.likePost({ postId, userId });
+        return res.status(result.status).json(result.post);
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+const commentPost = async (req, res) => {
+    try {
+        let postId = req.params.id;
+        let userId = req.userId;
+        let { content } = req.body;
+        let result = await postService.commentPost({ postId, userId, content });
+        return res.status(result.status).json(result.post);
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+export { createPost, getPost, likePost, commentPost };      

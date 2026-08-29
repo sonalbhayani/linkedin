@@ -6,14 +6,18 @@ import { UserContext } from '../context/UserContext';
 import { useContext } from 'react';
 import { FaPencil } from "react-icons/fa6";
 import EditProfile from "../component/EditProfile";
+import AddPost from "../component/AddPost";
+import Post from "../component/Post";
 const Home = () => {
-    const { user, setUser, editProfile, setEditProfile } = useContext(UserContext);
+    const { user, setUser, editProfile, setEditProfile, newPost, setNewPost, posts, setPosts, getpost } = useContext(UserContext);
     return (
 
 
         <div className='bg-[#f3f2f0] w-full min-h-screen pb-5'>
             <Nav />
             {editProfile && <EditProfile />}
+            {newPost && <AddPost />}
+
 
             <div className="flex flex-col lg:flex-row justify-center items-start gap-5 m-5">
                 <div className="lg:w-[25%] w-full min-h-[350px] bg-white rounded-lg relative">
@@ -48,14 +52,30 @@ const Home = () => {
                 </div>
 
                 <div className="lg:w-[50%] w-full min-h-[400px] bg-[#f3f2f0] rounded-lg ">
-                    <div className='flex items-center gap-5 m-5 min-h-[70px] bg-white rounded-lg p-5'>
+                    <div className='flex items-center gap-5 m-5 min-h-[70px]  bg-white rounded-lg p-5'>
                         <img src={user.profileImage || profile} alt="profile"
                             className='w-10 h-10 rounded-full cursor-pointer hover:text-gray-900 object-cover' />
-                        <button className='w-full h-[40px] text-lg font-bold
+                        <button onClick={() => setNewPost(true)}
+                            className='w-full h-[40px] text-lg font-bold
                     outline-none border-2 border-[#004182] text-[#004182] 
                     rounded-full cursor-pointer hover:bg-[#004182] hover:text-white  items-center flex justify-start px-5'>
                             Start a Post</button>
                     </div>
+                    {posts?.map((post, index) => (
+                        <Post
+                            key={post._id || index}
+                            description={post.description}
+                            image={post.image}
+                            author={post.user}
+                            like={post.likes}
+                            comment={post.comments}
+                            id={post._id}
+                            createdAt={post.createdAt}
+                            getpost={getpost}
+                            user={user}
+                        />
+                    ))}
+
 
 
                 </div>

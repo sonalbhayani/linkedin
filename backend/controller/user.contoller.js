@@ -38,4 +38,27 @@ const updateProfile = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 }
-export { getAuthUser, updateProfile };
+const likePost = async (req, res) => {
+    try {
+        let postId = req.params.id;
+        let userId = req.userId;
+        let result = await userService.likePost({ postId, userId });
+        return res.status(result.status).json(result.post);
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+const commentPost = async (req, res) => {
+    try {
+        let postId = req.params.id;
+        let userId = req.userId;
+        let { comment } = req.body;
+        let result = await userService.commentPost({ postId, userId, comment });
+        return res.status(result.status).json(result.post);
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+export { getAuthUser, updateProfile, likePost, commentPost };
