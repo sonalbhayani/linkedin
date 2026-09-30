@@ -1,21 +1,54 @@
 import profile from "../assets/profile.png"
 import moment from "moment";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { BiLike } from "react-icons/bi";
 import { BiSolidLike } from "react-icons/bi";
 import { FaRegCommentDots } from "react-icons/fa";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import { SocketContext } from "../context/SocketContext";
 import { IoSend } from "react-icons/io5";
+import ConnectButton from "./ConnectButton";
 
 const Post = ({ description, image, author, like, comment, id, createdAt, getpost, user }) => {
     const [more, setMore] = useState(false);
     const [liked, setLiked] = useState(like?.includes(user?._id) || false);
 
-    const [likeCount, setLikeCount] = useState(like.length);
+    const [likeCount, setLikeCount] = useState(like?.length || 0);
     const [commentText, setCommentText] = useState("");
     const [showComment, setShowComment] = useState(false);
     const { serverUrl } = useContext(AuthContext);
+    const { socket } = useContext(SocketContext);
+
+    const [commentData, showCommentData] = useState(comment || []);
+
+    useEffect(() => {
+        showCommentData(comment || []);
+    }, [comment]);
+
+    useEffect(() => {
+        if (!socket) return;
+
+        const handleLikedPost = (postId, likes) => {
+            console.log("like received", postId, likes);
+            if (postId === id) {
+                setLikeCount(likes);
+            }
+        };
+        const handleCommentedPost = (data) => {
+            if (data.postId === id) {
+                showCommentData(data.comm);
+            }
+        };
+
+        socket.on("liked_post", handleLikedPost);
+        socket.on("commented_post", handleCommentedPost);
+
+        return () => {
+            socket.off("liked_post", handleLikedPost);
+            socket.off("commented_post", handleCommentedPost);
+        };
+    }, [socket, id]);
     const handleLike = async () => {
         try {
 
@@ -56,9 +89,11 @@ const Post = ({ description, image, author, like, comment, id, createdAt, getpos
                         )}
                     </div>
                 </div>
-                <button className='w-24 h-12 text-lg font-bold outline-none border-2 border-[#004182] text-[#004182] rounded-full cursor-pointer hover:bg-[#004182] hover:text-white items-center flex justify-center'>
-                    Connect
-                </button>
+                {
+                    author?._id !== user?._id && (
+                        <ConnectButton receiverId={author?._id} />
+                    )
+                }
             </div>
             <div className={"px-5 overflow-hidden " + (!more ? "h-[50px]" : "")}>{description}</div>
 
@@ -75,7 +110,7 @@ const Post = ({ description, image, author, like, comment, id, createdAt, getpos
                     <span>{likeCount} Like</span>
                 </div>
                 <div className="flex items-center gap-2 cursor-pointer" onClick={() => setShowComment(!showComment)}>
-                    <span>{comment.length} Comment</span>
+                    <span>{commentData?.length || 0} Comment</span>
                 </div>
             </div>
             <div className="flex  items-center gap-10">
@@ -109,8 +144,8 @@ const Post = ({ description, image, author, like, comment, id, createdAt, getpos
                     </div>
 
                     {/* Comments List */}
-                    {comment?.map((item, index) => (
-                        <div key={index} className="flex flex-col">
+                    {commentData?.slice().reverse().map((item, index) => (
+                        <div key={item._id || index} className="flex flex-col">
                             <div className='flex items-center gap-3'>
                                 <img src={item.user?.profileImage || profile} alt="profile" className="w-10 h-10 rounded-full cursor-pointer hover:text-gray-900 object-cover" />
                                 <div className='flex flex-col'>

@@ -19,12 +19,15 @@ const Nav = () => {
     const navigate = useNavigate();
     const handleSignOut = async () => {
         try {
-            await axios.post(`${serverUrl}/api/v1/auth/signOut`, {}, { withCredentials: true });
+            await axios.get(`${serverUrl}/api/v1/auth/signOut`, {}, { withCredentials: true });
             setUser(null);
             navigate("/");
         } catch (error) {
             console.log(error);
         }
+    }
+    const handleNavigate = (path) => {
+        navigate(path);
     }
 
     return (
@@ -63,11 +66,11 @@ const Nav = () => {
                     </div>
                 }
                 <div className='flex items-center gap-10 z-0'>
-                    <div className='flex flex-col items-center hidden md:block'>
+                    <div className='flex flex-col items-center hidden md:block' onClick={() => handleNavigate('/home')}>
                         <p className='text-lg font-medium text-gray-600 cursor-pointer hover:text-gray-900'>Home</p>
                         <MdOutlineHome className='text-gray-600 text-2xl cursor-pointer hover:text-gray-900' />
                     </div>
-                    <div className='flex flex-col items-center hidden md:block'>
+                    <div className='flex flex-col items-center hidden md:block' onClick={() => handleNavigate('/network')}>
                         <p className='text-lg font-medium text-gray-600 cursor-pointer hover:text-gray-900'>My Network</p>
                         <MdOutlineGroup className='text-gray-600 text-2xl cursor-pointer hover:text-gray-900' />
                     </div>

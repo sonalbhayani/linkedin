@@ -1,5 +1,6 @@
 import postService from "../service/postService.js";
 import uploadOnCloudinary from "../config/cloudinary.js"
+import { io } from "../app.js";
 const createPost = async (req, res) => {
     try {
         let { description } = req.body;
@@ -11,6 +12,7 @@ const createPost = async (req, res) => {
 
         let user = req.userId;
         let result = await postService.createPost({ description, image, user });
+
         return res.status(result.status).json(result.post);
 
     } catch (error) {
@@ -33,6 +35,7 @@ const likePost = async (req, res) => {
         let postId = req.params.id;
         let userId = req.userId;
         let result = await postService.likePost({ postId, userId });
+        io.emit("liked_post", postId, result.post.likes.length);
         return res.status(result.status).json(result.post);
 
     } catch (error) {
@@ -45,6 +48,7 @@ const commentPost = async (req, res) => {
         let userId = req.userId;
         let { content } = req.body;
         let result = await postService.commentPost({ postId, userId, content });
+        io.emit("commented_post", { postId, comm: result.post.comments });
         return res.status(result.status).json(result.post);
 
     } catch (error) {

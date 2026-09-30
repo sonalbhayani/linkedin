@@ -16,7 +16,7 @@ class postService {
                     path: "comments.user",
                     select: "firstName lastName profileImage"
                 })
-                .sort({ createdAt: -1 });
+                .sort({ _id: -1 });
 
             return ({ status: 200, post });
         } catch (error) {
@@ -44,6 +44,12 @@ class postService {
             let post = await postModel.findById(data.postId);
             post.comments.push({ user: data.userId, content: data.content });
             await post.save();
+            post = await postModel.findById(data.postId)
+                .populate("user", "firstName lastName profileImage headline")
+                .populate({
+                    path: "comments.user",
+                    select: "firstName lastName profileImage"
+                });
             return ({ status: 200, post });
         } catch (error) {
             throw error;

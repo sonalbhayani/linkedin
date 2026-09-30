@@ -9,7 +9,8 @@ import EditProfile from "../component/EditProfile";
 import AddPost from "../component/AddPost";
 import Post from "../component/Post";
 const Home = () => {
-    const { user, setUser, editProfile, setEditProfile, newPost, setNewPost, posts, setPosts, getpost } = useContext(UserContext);
+    const { user, setUser, editProfile, setEditProfile,
+        newPost, setNewPost, posts, setPosts, getpost } = useContext(UserContext);
     return (
 
 
