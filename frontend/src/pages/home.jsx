@@ -8,9 +8,35 @@ import { FaPencil } from "react-icons/fa6";
 import EditProfile from "../component/EditProfile";
 import AddPost from "../component/AddPost";
 import Post from "../component/Post";
+import { useState, useEffect } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import axios from 'axios';
+
 const Home = () => {
     const { user, setUser, editProfile, setEditProfile,
-        newPost, setNewPost, posts, setPosts, getpost } = useContext(UserContext);
+        newPost, setNewPost, posts, setPosts, getpost, getProfileUser } = useContext(UserContext);
+    const { serverUrl } = useContext(AuthContext);
+
+
+    const [suggestedUser, setSuggestedUser] = useState([]);
+
+    const getSuggestedUser = async () => {
+        try {
+            const response = await axios.get(`${serverUrl}/api/v1/user/suggesteduser`, { withCredentials: true });
+            if (response.status === 200) {
+                setSuggestedUser(response.data.users);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getSuggestedUser();
+        getpost(serverUrl);
+    }, []);
+
+
     return (
 
 
@@ -74,13 +100,30 @@ const Home = () => {
                             createdAt={post.createdAt}
                             getpost={getpost}
                             user={user}
+                            getProfileUser={getProfileUser}
                         />
                     ))}
 
 
 
                 </div>
-                <div className="lg:w-[25%] w-full min-h-[400px] bg-white rounded-lg ">Right Side</div>
+                <div className="lg:w-[25%] w-full min-h-[300px] bg-white rounded-lg lg:block hidden ">
+                    <div className='top-25 mt-5 m-5'>
+                        <h1 className='font-medium text-lg pl-1 text-gray-700'>Suggested for you</h1>
+                        <hr className='border-gray-200 my-2' />
+                        {suggestedUser?.map((user, index) => (
+                            <div key={user._id || index}
+                                className="flex items-center gap-2 mt-5" onClick={() => getProfileUser(serverUrl, user._id)}>
+                                <img src={user.profileImage || profile} alt="profile"
+                                    className='w-10 h-10 rounded-full cursor-pointer hover:text-gray-900 object-cover' />
+                                <div className="flex-1">
+                                    <p className="text-sm font-medium">{`${user.firstName} ${user.lastName}`}</p>
+                                    <p className="text-xs text-gray-600">{user.headline}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
 

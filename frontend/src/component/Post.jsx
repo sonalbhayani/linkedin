@@ -10,7 +10,7 @@ import { SocketContext } from "../context/SocketContext";
 import { IoSend } from "react-icons/io5";
 import ConnectButton from "./ConnectButton";
 
-const Post = ({ description, image, author, like, comment, id, createdAt, getpost, user }) => {
+const Post = ({ description, image, author, like, comment, id, createdAt, getpost, user, getProfileUser }) => {
     const [more, setMore] = useState(false);
     const [liked, setLiked] = useState(like?.includes(user?._id) || false);
 
@@ -77,7 +77,7 @@ const Post = ({ description, image, author, like, comment, id, createdAt, getpos
     return (
         <div className='flex  flex-col gap-5 h-min-[200px] bg-white rounded-lg p-5 mb-5'>
             <div className='flex     items-center justify-between gap-5 rounded-lg p-5'>
-                <div className='flex items-center gap-3'>
+                <div className='flex items-center gap-3' onClick={() => getProfileUser(serverUrl, author._id)}>
                     <img src={author?.profileImage || profile} alt="profile" className='w-10 h-10 rounded-full cursor-pointer hover:text-gray-900 object-cover' />
                     <div className='flex flex-col'>
                         <p className='text-xl font-medium'>{author ? `${author.firstName} ${author.lastName}` : 'Anonymous'}</p>

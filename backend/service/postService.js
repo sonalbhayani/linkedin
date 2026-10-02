@@ -1,8 +1,10 @@
 import postModel from "../model/post.model.js";
+import NotificationService from "./notificationService.js"
 class postService {
     static async createPost(data) {
         try {
             let post = await postModel.create(data);
+            await NotificationService.createNotification(data.userId, post.user, "post", post._id);
             return ({ status: 201, post });
         } catch (error) {
             throw error;
@@ -32,8 +34,12 @@ class postService {
                 post.likes.pop(data.userId);
             } else {
                 post.likes.push(data.userId);
+                if (data.userId != post.user) {
+                    await NotificationService.createNotification(data.userId, post.user, "like", post._id);
+                }
             }
             await post.save();
+
             return ({ status: 200, post });
         } catch (error) {
             throw error;
@@ -43,6 +49,7 @@ class postService {
         try {
             let post = await postModel.findById(data.postId);
             post.comments.push({ user: data.userId, content: data.content });
+            await NotificationService.createNotification(data.userId, post.user, "comment", post._id);
             await post.save();
             post = await postModel.findById(data.postId)
                 .populate("user", "firstName lastName profileImage headline")

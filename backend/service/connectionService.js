@@ -12,6 +12,7 @@ class connectionService {
                 return { status: 400, message: "Connection already exists" }
             }
             const connection = await Connection.create({ sender, receiver });
+
             return { "status": 200, "message": "Coneection request send sucessfully", }
 
         } catch (error) {
@@ -38,8 +39,9 @@ class connectionService {
             }
             connection.status = "accepted";
             await connection.save();
-            await User.findByIdAndUpdate(connection.sender, { $push: { connections: connection._id } });
-            await User.findByIdAndUpdate(connection.receiver, { $push: { connections: connection._id } });
+            await NotificationService.createNotification(connection.sender, connection.receiver, "connection", null);
+            await User.findByIdAndUpdate(connection.sender, { $push: { network: connection.receiver } });
+            await User.findByIdAndUpdate(connection.receiver, { $push: { network: connection.sender } });
             return { status: 200, message: "Connection is accepted successfully", receiver: connection.receiver, sender: connection.sender }
         } catch (error) {
             console.error("Error in accepting connection:", error);

@@ -61,4 +61,31 @@ const commentPost = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 }
-export { getAuthUser, updateProfile, likePost, commentPost };
+const getuserbyid = async (req, res) => {
+    try {
+        let userId = req.params.id;
+        let userData = await userService.getUser(userId);
+        return res.status(userData.status).json(userData);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+const searchUser = async (req, res) => {
+    try {
+        let query = req.query.query || req.query.q || "";
+        let result = await userService.searchUser(query);
+        return res.status(result.status).json({ users: result.users });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+const getSuggestedUser = async (req, res) => {
+    try {
+        let userId = req.userId;
+        let result = await userService.getSuggestedUser(userId);
+        return res.status(result.status).json({ users: result.users });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+export { getAuthUser, updateProfile, likePost, commentPost, getuserbyid, searchUser, getSuggestedUser };
