@@ -83,7 +83,6 @@ const getConnectionStatus = async (req, res) => {
 const removeConnection = async (req, res) => {
     try {
         let data = {
-            connectionId: req.body.connectionId,
             sender: req.userId,
             receiver: req.body.receiverId,
         }

@@ -31,10 +31,10 @@ const Notification = () => {
     const handleMarkAsRead = async (id = null) => {
         try {
             if (id) {
-                const response = await axios.put(`${serverUrl}/api/v1/notification/read`, { data: { _id: id }, withCredentials: true })
+                const response = await axios.put(`${serverUrl}/api/v1/notification/read`, { _id: id }, { withCredentials: true });
             }
             else {
-                const response = await axios.put(`${serverUrl}/api/v1/notification/readall`, { withCredentials: true })
+                const response = await axios.put(`${serverUrl}/api/v1/notification/readall`, {}, { withCredentials: true });
             }
             getNotification();
         } catch (error) {
@@ -79,7 +79,7 @@ const Notification = () => {
                                                 <p className="text-gray-600">{notification.sender.firstName} commented on your post</p>
                                             )}
                                             {notification.type == "connection" && (
-                                                <p className="text-gray-600">{notification.sender.firstName} sent you a connection request</p>
+                                                <p className="text-gray-600">{notification.sender.firstName} accepted your request</p>
                                             )}
                                             {notification.type == "post" && (
                                                 <p className="text-gray-600">{notification.post.user.firstName} added new post</p>

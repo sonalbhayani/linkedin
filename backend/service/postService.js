@@ -4,7 +4,10 @@ class postService {
     static async createPost(data) {
         try {
             let post = await postModel.create(data);
-            await NotificationService.createNotification(data.userId, post.user, "post", post._id);
+            if(data.userId != post.user){
+                await NotificationService.createNotification(data.userId, post.user, "post", post._id);
+            }
+            
             return ({ status: 201, post });
         } catch (error) {
             throw error;
@@ -49,7 +52,9 @@ class postService {
         try {
             let post = await postModel.findById(data.postId);
             post.comments.push({ user: data.userId, content: data.content });
-            await NotificationService.createNotification(data.userId, post.user, "comment", post._id);
+              if(data.userId != post.user){
+               await NotificationService.createNotification(data.userId, post.user, "comment", post._id);
+              }
             await post.save();
             post = await postModel.findById(data.postId)
                 .populate("user", "firstName lastName profileImage headline")

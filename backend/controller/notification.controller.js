@@ -24,8 +24,8 @@ const getNotification = async (req, res) => {
 const updateNotification = async (req, res) => {
     try {
         const userId = req.userId;
-        const { notificationId } = req.body;
-        const notification = await NotificationService.updateNotification(userId, notificationId);
+        const { _id } = req.body;
+        const notification = await NotificationService.updateNotification(userId, _id);
         return res.status(notification.status).json(notification);
     } catch (error) {
         return res.status(500).json({ message: error.message });
@@ -51,9 +51,7 @@ const deleteAllNotification = async (req, res) => {
 }
 const deleteNotification = async (req, res) => {
     try {
-
-        const { _id } = req.body._id;
-        console.log(_id)
+        const { _id } = req.body;
         const notification = await NotificationService.deleteNotification(_id);
         return res.status(notification.status).json(notification);
     } catch (error) {

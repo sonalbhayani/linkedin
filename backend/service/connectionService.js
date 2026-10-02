@@ -1,5 +1,6 @@
 import Connection from "../model/connection.model.js";
 import User from "../model/user.model.js"
+import NotificationService from "./notificationService.js"
 class connectionService {
 
     static async createConnection(data) {
@@ -39,7 +40,8 @@ class connectionService {
             }
             connection.status = "accepted";
             await connection.save();
-            await NotificationService.createNotification(connection.sender, connection.receiver, "connection", null);
+             await NotificationService.createNotification( connection.receiver,connection.sender, "connection", null);
+            
             await User.findByIdAndUpdate(connection.sender, { $push: { network: connection.receiver } });
             await User.findByIdAndUpdate(connection.receiver, { $push: { network: connection.sender } });
             return { status: 200, message: "Connection is accepted successfully", receiver: connection.receiver, sender: connection.sender }
@@ -105,25 +107,22 @@ class connectionService {
     }
     static async removeConnection(data) {
         try {
-            const { connectionId, sender, receiver } = data;
-            let connection;
-            if (connectionId) {
-                connection = await Connection.findById(connectionId);
-            } else if (sender && receiver) {
-                connection = await Connection.findOne({
+            const { sender, receiver } = data;
+            let connection = await Connection.findOne({
                     $or: [
                         { sender, receiver },
                         { sender: receiver, receiver: sender }
                     ]
                 });
-            }
             if (!connection) {
                 return { status: 404, message: "Connection not found" }
             }
             if (connection.sender.toString() !== sender.toString() && connection.receiver.toString() !== sender.toString()) {
                 return { status: 403, message: "You are not authorized to remove this connection" }
             }
+            console.log(connection._id);
             await Connection.findByIdAndDelete(connection._id);
+            
             await User.findByIdAndUpdate(connection.sender, { $pull: { connections: connection._id } });
             await User.findByIdAndUpdate(connection.receiver, { $pull: { connections: connection._id } });
 

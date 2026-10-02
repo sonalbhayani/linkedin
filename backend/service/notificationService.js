@@ -18,7 +18,7 @@ class NotificationService {
     }
     static async getNotification(userId) {
         try {
-            const notification = await Notification.find({ receiver: userId })
+            const notification = await Notification.find({ receiver: userId, read: false })
                 .populate("sender", "firstName lastName profileImage")
                 .populate("post", "description image")
                 .sort({ createdAt: -1 });
@@ -48,17 +48,19 @@ class NotificationService {
     }
     static async deleteAllNotification(userId) {
         try {
+            console.log(userId);
             const notification = await Notification.deleteMany({ receiver: userId });
-            return { "status": 201, "message": "Notification deleted sucessfully", "notification": notification }
+            return { "status": 200, "message": "Notification deleted sucessfully", "notification": notification }
 
         } catch (error) {
             console.log(error);
         }
     }
-    static async deleteNotification(user, notificationId) {
+    static async deleteNotification(notificationId) {
         try {
+           
             const notification = await Notification.findByIdAndDelete(notificationId);
-            return { "status": 201, "message": "Notification deleted sucessfully", "notification": notification }
+            return { "status": 200, "message": "Notification deleted sucessfully", "notification": notification }
 
         } catch (error) {
             console.log(error);
