@@ -56,7 +56,8 @@ const Nav = () => {
     return (
         <nav className='bg-white w-full h-20 flex items-center justify-around relative z-10'>
             <div className='flex items-center ' >
-                <div className='pl-10' onClick={() => setActiveSearch(false)}>
+                <div className='pl-10' onClick={() => {setActiveSearch(false) ;
+                     handleNavigate("/home")}}>
                     <img src={home_logo} alt="home_logo" className='w-10 h-10' />
                 </div>
                 <IoMdSearch className={`text-gray-600 text-2xl cursor-pointer hover:text-gray-900 ${activeSearch ? 'block' : 'hidden'}`} onClick={() => setActiveSearch(!activeSearch)} />
@@ -64,11 +65,11 @@ const Nav = () => {
                     <IoMdSearch className='text-gray-600 text-2xl cursor-pointer hover:text-gray-900 absolute left-4' />
                     <input type="text" placeholder='Search user...' className='ml-10 px-3 py-2 w-[200px]  text-lg placeholder:text-gray-400 outline-none focus:border-[#004182] ' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                     {searchResult.length > 0 && (
-                        <div className="absolute top-full left-0 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
+                        <div className="absolute top-full h-[200px] overflow-y-auto left-0 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
                             {searchResult.map((user) => (
                                 <div
                                     key={user._id}
-                                    className="px-4 py-2 border-b-1 border-gray-400 mb-1 hover:bg-gray-200 cursor-pointer flex items-center gap-3"
+                                    className="px-4 py-2  border-b-1 border-gray-400 mb-1 hover:bg-gray-200 cursor-pointer flex items-center gap-3"
                                     onClick={() => {
                                         getProfileUser(serverUrl, user._id);
                                         setSearchResult([]);

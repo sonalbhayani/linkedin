@@ -9,7 +9,7 @@ import { FiCamera } from "react-icons/fi";
 import { FaPencil } from "react-icons/fa6";
 import EditProfile from "../component/EditProfile";
 import Post from "../component/Post";
-import ConnectButton from "../component/connectButton";
+import ConnectButton from "../component/connectButton.jsx";
 
 const Profile = () => {
     const { user, setUser, editProfile, setEditProfile, posts, getpost, userProfile } = useContext(UserContext);

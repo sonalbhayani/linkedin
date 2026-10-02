@@ -61,8 +61,21 @@ const Notification = () => {
             <Nav />
             <div className="max-w-[1200px] mx-auto">
                 <div className="pt-15">
-                    <h1 className="text-3xl font-bold mb-5">Notifications</h1>
-                    <div className="space-y-5">
+                    <div className="flex items-center justify-between mb-5">
+                        <h1 className="text-3xl font-bold mb-5">Notifications</h1>
+                        {notificationData?.length > 0 && (
+                            <div className="flex gap-2">
+                                <button className="w-[200px] h-[40px] text-lg font-bold relative 
+                                    outline-none border-2 border-[#004182] text-[#004182] 
+                                    rounded-full cursor-pointer hover:bg-[#004182] hover:text-white  items-center justify-center" onClick={() => handleMarkAsRead()}>Read All</button>
+                                <button className="w-[200px] h-[40px] text-lg font-bold relative 
+                                    outline-none border-2 border-[#820004] text-[#820004] 
+                                    rounded-full cursor-pointer hover:bg-[#820004] hover:text-white  items-center justify-center" onClick={() => handleDeleteNotification()}>Clear All</button>
+                            </div>
+                        )}
+                    </div>
+                    
+                    <div className="space-y-5 h-[400px] overflow-y-auto">
                         {loading ? (
                             <p className="text-gray-600">Loading notifications...</p>
                         ) : (
@@ -100,16 +113,7 @@ const Notification = () => {
                             ))}
 
 
-                        {notificationData?.length > 0 && (
-                            <div className="flex gap-2">
-                                <button className="w-[200px] h-[40px] text-lg font-bold relative 
-                                    outline-none border-2 border-[#004182] text-[#004182] 
-                                    rounded-full cursor-pointer hover:bg-[#004182] hover:text-white  items-center justify-center" onClick={() => handleMarkAsRead()}>Read All</button>
-                                <button className="w-[200px] h-[40px] text-lg font-bold relative 
-                                    outline-none border-2 border-[#820004] text-[#820004] 
-                                    rounded-full cursor-pointer hover:bg-[#820004] hover:text-white  items-center justify-center" onClick={() => handleDeleteNotification()}>Clear All</button>
-                            </div>
-                        )}
+                        
 
                     </div>
                 </div>
